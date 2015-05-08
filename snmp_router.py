@@ -3,9 +3,9 @@
 import sys
 import json
 
-from pysnmp import role, v2c
+from pysnmp.entity.rfc3413.oneliner import cmdgen
 
-# Open json file and convert format to dictionary_type 
+# Open json file and convert format to dictionary_type
 def load_json_file(filename):
     try:
         file = open(filename, 'r')
@@ -25,7 +25,7 @@ def load_json_file(filename):
         result = ''
     else:
         result = info_dict
-       
+
     return result
 
 
@@ -35,19 +35,29 @@ class Router:
         self.ipv4       = router_info['ipv4']
         self.os         = router_info['os']
         self.snmp_community = router_info['snmp_community']
-        
+
         # read oid list and pick out using router OS
         self.oid_info   = self.load_oid()
 
     def load_oid(self):
-        oid_info_OSs = load_json_file('oid.json', 'r')
-        try: 
+        oid_info_OSs = load_json_file('oid.json')
+        if self.os == 'IOS-XR' or self.os == 'JUNOS':
+            pass
+        else:
+            raise AttributeError( 'Plase select OS from JUNOS/IOS-XR . Your OS is ' + self.os + ' .')
+        
+        try:
             oid_info = oid_info_OSs[self.os]
         except:
-            raise AttributeError( self.os + ' is not support. Please use JUNOS/IOS-XR')
+            raise AttributeError( 'JSON format Error.')
 
         return oid_info
-    
-    def get_snmp(self, ip, port=161):
-	   	session = role.namager((self.ip, port))
 
+    def get_snmp(self, oid_item, port=161):
+        command  = cmdgen.CommandGenerator()
+        command_data = cmdgen.CommunityData('hoge', self.snmp_community)
+
+        transport = cmdgen.UdpTransportTarget( (self.ipv4, port) )
+        
+        (error, error_text, error_no, result) = command.getCmd( command_data, transport, self.oid_info[oid_item] )
+        return result
