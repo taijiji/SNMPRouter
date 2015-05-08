@@ -24,20 +24,20 @@ This is sample json file.
 [
     {
         "hostname"       : "router1",
-	"ipv4"           : "192.168.0.1",
-	"os"             : "JUNOS",
+        "ipv4"           : "192.168.0.1",
+        "os"             : "JUNOS",
         "snmp_community" : "aaabbbccc"
     },
     {
         "hostname"       : "router2",
-	"ipv4"           : "192.168.0.2",
-	"os"             : "IOS-XR",
+        "ipv4"           : "192.168.0.2",
+        "os"             : "IOS-XR",
         "snmp_community" : "aaabbbccc"
     },
     {
         "hostname"       : "router3",
-	"ipv4"           : "192.168.0.3",
-	"os"             : "JUNOS",
+        "ipv4"           : "192.168.0.3",
+        "os"             : "JUNOS",
         "snmp_community" : "aaabbbccc"
     }
 ]
