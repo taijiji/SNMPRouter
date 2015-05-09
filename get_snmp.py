@@ -20,6 +20,8 @@ for num in range( len(router_info) ):
     memory_usage = router.get_snmp('memory_usage')
 
     print 'Router : ' + router_info[num]['hostname']
-    print '  cpu_usage : ' + str(cpu_usage)
-    print '  memory_usage : ' + str(memory_usage)
+    print '  cpu_usage : ' 
+    print cpu_usage
+    print '  memory_usage : '
+    print memory_usage
     
